@@ -1,6 +1,7 @@
-package systems.tat.teamspeak.manager;
+package systems.tat.teamspeak.util;
 
 import systems.tat.teamspeak.TeamSpeak;
+import systems.tat.teamspeak.model.SupportChannel;
 import systems.tat.teamspeak.model.TeamspeakCredentials;
 
 import java.lang.reflect.Field;
@@ -11,7 +12,7 @@ import java.lang.reflect.Field;
  * @author : Niklas Tat
  * @since : 28.09.2022
  */
-public class InstanceManager {
+public class InstanceUtil {
 
     public static void setTeamspeakCredentialsInstance(TeamspeakCredentials teamspeakCredentials) throws NoSuchFieldException, IllegalAccessException {
         Field field = TeamSpeak.class.getDeclaredField("credentials");

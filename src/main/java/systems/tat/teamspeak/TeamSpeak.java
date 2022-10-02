@@ -1,5 +1,6 @@
 package systems.tat.teamspeak;
 
+import com.github.theholywaffle.teamspeak3.TS3Api;
 import lombok.Getter;
 import systems.tat.teamspeak.model.TeamspeakCredentials;
 
@@ -13,8 +14,6 @@ import systems.tat.teamspeak.model.TeamspeakCredentials;
 public class TeamSpeak {
 
     private static final TeamspeakCredentials credentials = null;
-
-    private TeamSpeak() {
-
-    }
+    private static TS3Api api;
+    private TeamSpeak() {}
 }
