@@ -41,6 +41,12 @@ public class TeamspeakCredentials implements Serializable {
      */
     private int virtualServerPort;
 
+    /**
+     * This is the ID if the channel where the Bot should join.
+     * IMPORTANT: If you delete the channel, you change the ID here and restart the Bot.
+     */
+    private int defaultChannelId;
+
     /*
      Teamspeak Query Information
      */

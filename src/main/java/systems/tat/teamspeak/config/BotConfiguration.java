@@ -1,7 +1,6 @@
 package systems.tat.teamspeak.config;
 
 import lombok.Data;
-import lombok.Getter;
 import systems.tat.teamspeak.model.Channel;
 import systems.tat.teamspeak.model.SupportChannel;
 
@@ -23,5 +22,13 @@ public class BotConfiguration {
 
     public static Channel getChannelConfig() {
         return channelConfig;
+    }
+
+    public static void setSupportChannelConfig(SupportChannel supportChannelConfig) {
+        BotConfiguration.supportChannelConfig = supportChannelConfig;
+    }
+
+    public static void setChannelConfig(Channel channelConfig) {
+        BotConfiguration.channelConfig = channelConfig;
     }
 }

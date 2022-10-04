@@ -1,5 +1,6 @@
 package systems.tat.teamspeak.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @since : 02.10.2022
  */
 @Data
+@Builder
 public class Channel {
 
     private List<Integer> afkChannelIds;
