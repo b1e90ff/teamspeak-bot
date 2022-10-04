@@ -64,7 +64,7 @@ public class SupportChannelWatcher {
     private static void runWatcher() {
         while (running.get()) {
             try {
-                Thread.sleep(1000);
+                Thread.sleep(BotConfiguration.getSupportChannelConfig().getInterval() * 1000L);
                 availableSupporter.clear();
 
                 // check if there are any supporter available

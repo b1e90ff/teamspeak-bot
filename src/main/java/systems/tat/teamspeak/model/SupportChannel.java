@@ -16,6 +16,9 @@ import java.util.List;
 @Builder
 public class SupportChannel implements Serializable {
 
+    private boolean isModuleEnabled;
+    private int interval;
+
     private String closedChannelName;
     private String openChannelName;
     private String supportOnlineJoinMessage;

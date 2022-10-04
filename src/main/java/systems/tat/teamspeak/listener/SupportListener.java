@@ -50,7 +50,7 @@ public class SupportListener extends TS3EventAdapter {
             return;
         }
 
-        // Notify the client and all supporter
+        // Notify the client that he is moved to a supporter
         if (BotConfiguration.getSupportChannelConfig().isPrivateMessageClientIfJoin()) {
             TeamSpeak.getTs3API().sendPrivateMessage(clientInfo.getId(),
                     BotConfiguration
@@ -60,6 +60,7 @@ public class SupportListener extends TS3EventAdapter {
                                     String.valueOf(availableSupporter.size())));
         }
 
+        // Notify the supporters (Private Message)
         if (BotConfiguration.getSupportChannelConfig().isPrivateMessageSupporterIfJoin()) {
             SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().sendPrivateMessage(supporter,
                     BotConfiguration
@@ -68,6 +69,7 @@ public class SupportListener extends TS3EventAdapter {
                             .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
         }
 
+        // Notify the supporters (Poke Message)
         if (BotConfiguration.getSupportChannelConfig().isPokeSupporterIfJoin()) {
             SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().pokeClient(supporter,
                     BotConfiguration
