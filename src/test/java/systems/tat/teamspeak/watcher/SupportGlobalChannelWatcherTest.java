@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
-import systems.tat.teamspeak.model.Channel;
+import systems.tat.teamspeak.model.GlobalChannel;
 import systems.tat.teamspeak.model.SupportChannel;
 import systems.tat.teamspeak.model.TeamspeakCredentials;
 import systems.tat.teamspeak.util.InstanceUtil;
@@ -21,7 +21,7 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Slf4j
-class SupportChannelWatcherTest {
+class SupportGlobalChannelWatcherTest {
 
     @BeforeAll
     public static void setup() throws NoSuchFieldException, IllegalAccessException {
@@ -62,7 +62,7 @@ class SupportChannelWatcherTest {
                 .privateMessageClientIfJoin(true)
                 .build());
 
-        BotConfiguration.setChannelConfig(Channel.builder().afkChannelIds(List.of(1)).build());
+        BotConfiguration.setGlobalChannelConfig(GlobalChannel.builder().afkChannelIds(List.of(1)).build());
 
         final TS3Config ts3Config = new TS3Config();
         TeamspeakCredentials credentials = TeamSpeak.getCredentials();

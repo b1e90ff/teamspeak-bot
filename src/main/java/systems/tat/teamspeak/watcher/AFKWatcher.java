@@ -2,7 +2,7 @@ package systems.tat.teamspeak.watcher;
 
 import lombok.extern.slf4j.Slf4j;
 import systems.tat.teamspeak.TeamSpeak;
-import systems.tat.teamspeak.annotation.InNewThread;
+import systems.tat.teamspeak.annotation.Watcher;
 import systems.tat.teamspeak.config.BotConfiguration;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
  * @since : 04.10.2022
  */
 @Slf4j
-@InNewThread
+@Watcher
 public class AFKWatcher {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
@@ -61,7 +61,7 @@ public class AFKWatcher {
                         // Is client idle
                         .filter(client -> client.getIdleTime() >= BotConfiguration.getAfkConfig().getIdleTime() * 1000L)
                         // Is client not already in AFK Channel
-                        .filter(client -> !BotConfiguration.getChannelConfig().getAfkChannelIds().contains(client.getChannelId()))
+                        .filter(client -> !BotConfiguration.getGlobalChannelConfig().getAfkChannelIds().contains(client.getChannelId()))
                         // Is client not in ignored channel
                         .filter(client -> !BotConfiguration.getAfkConfig().getIgnoredChannelIds().contains(client.getChannelId()))
                         // Is client not group not ignored
@@ -71,17 +71,17 @@ public class AFKWatcher {
                         // Move client to AFK Channel
                         .forEach(client -> {
                             // The First AFK Channel is the default AFK Channel
-                            TeamSpeak.getTs3API().moveClient(client.getId(), BotConfiguration.getChannelConfig().getAfkChannelIds().get(0));
+                            TeamSpeak.getTs3API().moveClient(client.getId(), BotConfiguration.getGlobalChannelConfig().getAfkChannelIds().get(0));
                             log.info("Moved client {} to AFK Channel cause of inactivity ({} seconds)", client.getNickname(), client.getIdleTime() / 1000L);
                         });
                 // Move Query back to default Channel
                 TeamSpeak.moveToDefault();
             } catch (Exception ex) {
-                log.error("Error while running SupportChannel Watcher!", ex);
+                log.error("Error while running AFK Watcher!", ex);
                 log.error("If this error occurs often, please report this issue with some information about your setup!");
                 log.error("In case you need help, feel free to contact the developer!");
             }
         }
-        log.info("SupportChannel Watcher stopped!");
+        log.info("AFK Watcher stopped!");
     }
 }

@@ -3,18 +3,20 @@ package systems.tat.teamspeak.watcher;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
+import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
-import systems.tat.teamspeak.model.AFK;
-import systems.tat.teamspeak.model.GlobalChannel;
-import systems.tat.teamspeak.model.TeamspeakCredentials;
+import systems.tat.teamspeak.model.*;
 import systems.tat.teamspeak.util.InstanceUtil;
 
+import java.util.HashMap;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * ToDo: Comment this class
@@ -23,7 +25,7 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Slf4j
-class AFKWatcherTest {
+class ChannelWatcherTest {
 
     @BeforeAll
     public static void setUp() throws NoSuchFieldException, IllegalAccessException {
@@ -37,16 +39,30 @@ class AFKWatcherTest {
                 .nickname("Ts3Bot")
                 .build());
 
-        BotConfiguration.setAfkConfig(AFK.builder()
-                .isModuleEnabled(true)
-                .interval(1)
-                .idleTime(10)
-                .ignoredGroupIds(List.of(6))
-                .ignoredChannelIds(List.of(12))
-                .ignoredClientUniqueIds(List.of("kz3HFAlCw7ZUWtIclgWvwYSUBcE="))
-                .build());
+        HashMap<String, Integer> channelPermissions = new HashMap<>();
+        channelPermissions.put("i_channel_needed_modify_power", 75);
+        channelPermissions.put("i_channel_needed_delete_power", 75);
+        channelPermissions.put("i_channel_needed_join_power", 0);
+        channelPermissions.put("i_ft_needed_file_upload_power", 75);
+        channelPermissions.put("i_ft_needed_file_download_power", 75);
+        channelPermissions.put("i_ft_needed_file_rename_power", 75);
+        channelPermissions.put("i_ft_needed_file_browse_power", 75);
+        channelPermissions.put("i_ft_needed_directory_create_power", 75);
 
-        BotConfiguration.setGlobalChannelConfig(GlobalChannel.builder().afkChannelIds(List.of(10, 1)).build());
+        BotConfiguration.setChannelConfig(ChannelConfig.builder()
+                        .isModuleEnabled(true)
+                        .interval(1)
+                        .channels(List.of(Channel.builder()
+                                        .name("Public Talk ")
+                                        .parenChannelId(13)
+                                        .maxClientsInChannel(0)
+                                        .channelCodecQuality(10)
+                                        .minChannel(3)
+                                        .maxChannel(10)
+                                        .freeChannel(2)
+                                        .channelPermissions(channelPermissions)
+                                .build()))
+                        .build());
 
         final TS3Config ts3Config = new TS3Config();
         TeamspeakCredentials credentials = TeamSpeak.getCredentials();
@@ -79,12 +95,12 @@ class AFKWatcherTest {
 
     @AfterAll
     public static void tearDown() {
-        AFKWatcher.stop();
+        ChannelWatcher.stop();
         TeamSpeak.getTs3API().logout();
     }
 
     @Test
     void start() {
-        AFKWatcher.start();
+        ChannelWatcher.start();
     }
 }

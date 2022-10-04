@@ -4,7 +4,7 @@ import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.wrapper.Client;
 import lombok.extern.slf4j.Slf4j;
 import systems.tat.teamspeak.TeamSpeak;
-import systems.tat.teamspeak.annotation.InNewThread;
+import systems.tat.teamspeak.annotation.Watcher;
 import systems.tat.teamspeak.config.BotConfiguration;
 import systems.tat.teamspeak.listener.SupportListener;
 
@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
  * @since : 29.09.2022
  */
 @Slf4j
-@InNewThread
+@Watcher
 public class SupportChannelWatcher {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
@@ -116,7 +116,7 @@ public class SupportChannelWatcher {
         return client.isAway()
                 || client.isOutputMuted()
                 || client.getIdleTime() > BotConfiguration.getSupportChannelConfig().getIdleTime()
-                || BotConfiguration.getChannelConfig().getAfkChannelIds().contains(client.getChannelId())
+                || BotConfiguration.getGlobalChannelConfig().getAfkChannelIds().contains(client.getChannelId())
                 || !client.isChannelCommander();
     }
 
