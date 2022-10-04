@@ -22,7 +22,7 @@ import java.util.stream.IntStream;
  * @since : 04.10.2022
  */
 @Slf4j
-public class SupportEvent extends TS3EventAdapter {
+public class SupportListener extends TS3EventAdapter {
     @Override
     public void onClientMoved(ClientMovedEvent e) {
         ClientInfo clientInfo = TeamSpeak.getTs3API().getClientInfo(e.getClientId());
@@ -51,21 +51,32 @@ public class SupportEvent extends TS3EventAdapter {
         }
 
         // Notify the client and all supporter
-        TeamSpeak.getTs3API().sendPrivateMessage(clientInfo.getId(),
-                BotConfiguration
-                        .getSupportChannelConfig()
-                        .getSupportOnlineJoinMessage()
-                        .replace("%supporter%",
-                                String.valueOf(availableSupporter.size())));
+        if (BotConfiguration.getSupportChannelConfig().isPrivateMessageClientIfJoin()) {
+            TeamSpeak.getTs3API().sendPrivateMessage(clientInfo.getId(),
+                    BotConfiguration
+                            .getSupportChannelConfig()
+                            .getSupportOnlineJoinMessage()
+                            .replace("%supporter%",
+                                    String.valueOf(availableSupporter.size())));
+        }
 
-        SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> {
-            TeamSpeak.getTs3API().sendPrivateMessage(supporter,
+        if (BotConfiguration.getSupportChannelConfig().isPrivateMessageSupporterIfJoin()) {
+            SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().sendPrivateMessage(supporter,
                     BotConfiguration
                             .getSupportChannelConfig()
                             .getClientJoinedSupportMessage()
-                            .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]"));
-        });
-        log.info("Client {} joined SupportChannel and {} supporter has been notified!", clientInfo.getNickname(), availableSupporter.size());
+                            .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
+        }
+
+        if (BotConfiguration.getSupportChannelConfig().isPokeSupporterIfJoin()) {
+            SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().pokeClient(supporter,
+                    BotConfiguration
+                            .getSupportChannelConfig()
+                            .getClientJoinedSupportMessage()
+                            .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
+        }
+
+        log.info("Client {} joined SupportChannel and {} supporter are Online!", clientInfo.getNickname(), availableSupporter.size());
         // Create the support channel for the client
         createSupportChannel(clientInfo);
     }

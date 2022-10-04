@@ -39,4 +39,7 @@ public class SupportChannel implements Serializable {
     private boolean isClientStickyIfJoin;
     private boolean supportOnlineUnlimitedClients;
     private boolean supportOfflineUnlimitedClients;
+    private boolean pokeSupporterIfJoin;
+    private boolean privateMessageSupporterIfJoin;
+    private boolean privateMessageClientIfJoin;
 }

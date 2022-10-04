@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.annotation.InNewThread;
 import systems.tat.teamspeak.config.BotConfiguration;
-import systems.tat.teamspeak.listener.SupportEvent;
+import systems.tat.teamspeak.listener.SupportListener;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,7 +40,7 @@ public class SupportChannelWatcher {
 
         log.info("Starting SupportChannel Watcher...");
         log.info("Activating SupportEvent listener...");
-        TeamSpeak.getTs3API().addTS3Listeners(new SupportEvent());
+        TeamSpeak.getTs3API().addTS3Listeners(new SupportListener());
         log.info("Watching for Supporter in SupportChannel with the ID {}", BotConfiguration.getSupportChannelConfig().getChannelId());
         running.set(true);
         runWatcher();
@@ -56,7 +56,7 @@ public class SupportChannelWatcher {
 
         log.info("Stopping SupportChannel Watcher...");
         log.info("Deactivating SupportEvent listener...");
-        TeamSpeak.getTs3API().removeTS3Listeners(new SupportEvent());
+        TeamSpeak.getTs3API().removeTS3Listeners(new SupportListener());
         running.set(false);
     }
 
@@ -84,7 +84,7 @@ public class SupportChannelWatcher {
         log.info("SupportChannel Watcher stopped!");
     }
 
-    private static void changeChannelName() throws Exception {
+    private static void changeChannelName() {
         HashMap<ChannelProperty, String> channelProperties = new HashMap<>();
 
         final boolean supporterAvailable = availableSupporter.size() > 0;

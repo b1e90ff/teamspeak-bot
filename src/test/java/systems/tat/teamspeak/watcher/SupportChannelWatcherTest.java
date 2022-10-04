@@ -55,6 +55,9 @@ class SupportChannelWatcherTest {
                 .isClientStickyIfJoin(true)
                 .supportOnlineUnlimitedClients(true)
                 .supportOfflineUnlimitedClients(true)
+                .pokeSupporterIfJoin(true)
+                .privateMessageSupporterIfJoin(true)
+                .privateMessageClientIfJoin(true)
                 .build());
 
         BotConfiguration.setChannelConfig(Channel.builder().afkChannelIds(List.of(1)).build());
