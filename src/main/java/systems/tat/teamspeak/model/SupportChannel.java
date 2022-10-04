@@ -24,6 +24,7 @@ public class SupportChannel implements Serializable {
     private String supportOnlineJoinMessage;
     private String supportOfflineJoinMessage;
     private String clientJoinedSupportMessage;
+    private String clientJoinedSupportPokeMessage;
 
     private int channelId;
     private int supportOnlineMaxClients;

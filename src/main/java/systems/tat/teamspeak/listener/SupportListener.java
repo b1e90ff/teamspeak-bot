@@ -3,6 +3,7 @@ package systems.tat.teamspeak.listener;
 import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import com.github.theholywaffle.teamspeak3.api.event.ClientMovedEvent;
 import com.github.theholywaffle.teamspeak3.api.event.TS3EventAdapter;
+import com.github.theholywaffle.teamspeak3.api.exception.TS3CommandFailedException;
 import com.github.theholywaffle.teamspeak3.api.wrapper.ClientInfo;
 import lombok.extern.slf4j.Slf4j;
 import systems.tat.teamspeak.TeamSpeak;
@@ -69,13 +70,17 @@ public class SupportListener extends TS3EventAdapter {
                             .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
         }
 
-        // Notify the supporters (Poke Message)
-        if (BotConfiguration.getSupportChannelConfig().isPokeSupporterIfJoin()) {
-            SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().pokeClient(supporter,
-                    BotConfiguration
-                            .getSupportChannelConfig()
-                            .getClientJoinedSupportMessage()
-                            .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
+        try {
+            // Notify the supporters (Poke Message)
+            if (BotConfiguration.getSupportChannelConfig().isPokeSupporterIfJoin()) {
+                SupportChannelWatcher.getAvailableSupporter().forEach(supporter -> TeamSpeak.getTs3API().pokeClient(supporter,
+                        BotConfiguration
+                                .getSupportChannelConfig()
+                                .getClientJoinedSupportPokeMessage()
+                                .replace("%client%", "[URL=" + clientInfo.getClientURI() + "]" + clientInfo.getNickname() + "[/URL]")));
+            }
+        } catch (TS3CommandFailedException ex) {
+            log.error("The Poke message if a client joins is too long!", ex);
         }
 
         log.info("Client {} joined SupportChannel and {} supporter are Online!", clientInfo.getNickname(), availableSupporter.size());

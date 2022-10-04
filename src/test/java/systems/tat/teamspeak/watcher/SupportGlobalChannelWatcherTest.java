@@ -43,6 +43,7 @@ class SupportGlobalChannelWatcherTest {
                 .supportOnlineJoinMessage("%supporter% Supporter has been notified")
                 .supportOfflineJoinMessage("No supporter online")
                 .clientJoinedSupportMessage("The Client %client% has joined the support channel")
+                .clientJoinedSupportPokeMessage("%client% need help")
                 .channelId(4)
                 .supportOnlineMaxClients(200)
                 .supportOfflineMaxClients(0)
