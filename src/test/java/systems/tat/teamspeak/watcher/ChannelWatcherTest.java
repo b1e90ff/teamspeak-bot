@@ -3,7 +3,6 @@ package systems.tat.teamspeak.watcher;
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import com.github.theholywaffle.teamspeak3.TS3Config;
 import com.github.theholywaffle.teamspeak3.TS3Query;
-import com.github.theholywaffle.teamspeak3.api.ChannelProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
 import systems.tat.teamspeak.model.*;
+import systems.tat.teamspeak.model.config.ChannelConfig;
+import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 import systems.tat.teamspeak.util.InstanceUtil;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * ToDo: Comment this class
@@ -29,7 +28,7 @@ class ChannelWatcherTest {
 
     @BeforeAll
     public static void setUp() throws NoSuchFieldException, IllegalAccessException {
-        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentials.builder()
+        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentialsConfig.builder()
                 .hostname("localhost")
                 .virtualServerPort(9987)
                 .defaultChannelId(1)
@@ -65,7 +64,7 @@ class ChannelWatcherTest {
                         .build());
 
         final TS3Config ts3Config = new TS3Config();
-        TeamspeakCredentials credentials = TeamSpeak.getCredentials();
+        TeamspeakCredentialsConfig credentials = TeamSpeak.getCredentials();
 
         //set address
         ts3Config.setHost(credentials.getHostname());

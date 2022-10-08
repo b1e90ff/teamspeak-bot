@@ -1,4 +1,4 @@
-package systems.tat.teamspeak.model;
+package systems.tat.teamspeak.model.config;
 
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @Builder
-public class GlobalChannel {
+public class GlobalChannelConfig {
 
     private List<Integer> afkChannelIds;
 }

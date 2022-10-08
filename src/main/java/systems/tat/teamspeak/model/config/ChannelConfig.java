@@ -1,7 +1,8 @@
-package systems.tat.teamspeak.model;
+package systems.tat.teamspeak.model.config;
 
 import lombok.Builder;
 import lombok.Data;
+import systems.tat.teamspeak.model.Channel;
 
 import java.util.List;
 

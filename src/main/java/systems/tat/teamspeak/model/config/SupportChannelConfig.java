@@ -1,4 +1,4 @@
-package systems.tat.teamspeak.model;
+package systems.tat.teamspeak.model.config;
 
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Data
 @Builder
-public class SupportChannel implements Serializable {
+public class SupportChannelConfig implements Serializable {
 
     private boolean isModuleEnabled;
     private int interval;

@@ -1,4 +1,4 @@
-package systems.tat.teamspeak.model;
+package systems.tat.teamspeak.model.config;
 
 import lombok.*;
 
@@ -22,7 +22,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TeamspeakCredentials implements Serializable {
+public class TeamspeakCredentialsConfig implements Serializable {
 
     /*
      Teamspeak Server Information

@@ -2,11 +2,9 @@ package systems.tat.teamspeak.util;
 
 import sun.misc.Unsafe;
 import systems.tat.teamspeak.TeamSpeak;
-import systems.tat.teamspeak.model.SupportChannel;
-import systems.tat.teamspeak.model.TeamspeakCredentials;
+import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 
 /**
  * ToDo: Comment this class
@@ -16,8 +14,7 @@ import java.lang.reflect.Modifier;
  */
 public class InstanceUtil {
 
-    public static void setTeamspeakCredentialsInstance(TeamspeakCredentials teamspeakCredentials) throws NoSuchFieldException, IllegalAccessException {
-        TeamSpeak.getCredentials();
+    public static void setTeamspeakCredentialsInstance(TeamspeakCredentialsConfig teamspeakCredentialsConfig) throws NoSuchFieldException, IllegalAccessException {
         final Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
         unsafeField.setAccessible(true);
         final Unsafe unsafe = (Unsafe) unsafeField.get(null);
@@ -25,6 +22,6 @@ public class InstanceUtil {
         final Field field = TeamSpeak.class.getDeclaredField("credentials");
         final Object fieldBase = unsafe.staticFieldBase(field);
         final long offset = unsafe.staticFieldOffset(field);
-        unsafe.putObject(fieldBase, offset, teamspeakCredentials);
+        unsafe.putObject(fieldBase, offset, teamspeakCredentialsConfig);
     }
 }

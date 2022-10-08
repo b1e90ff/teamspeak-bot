@@ -9,9 +9,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
-import systems.tat.teamspeak.model.AFK;
-import systems.tat.teamspeak.model.GlobalChannel;
-import systems.tat.teamspeak.model.TeamspeakCredentials;
+import systems.tat.teamspeak.model.config.AFKConfig;
+import systems.tat.teamspeak.model.config.GlobalChannelConfig;
+import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 import systems.tat.teamspeak.util.InstanceUtil;
 
 import java.util.List;
@@ -23,11 +23,11 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Slf4j
-class AFKWatcherTest {
+class AFKConfigWatcherTest {
 
     @BeforeAll
     public static void setUp() throws NoSuchFieldException, IllegalAccessException {
-        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentials.builder()
+        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentialsConfig.builder()
                 .hostname("localhost")
                 .virtualServerPort(9987)
                 .defaultChannelId(1)
@@ -37,7 +37,7 @@ class AFKWatcherTest {
                 .nickname("Ts3Bot")
                 .build());
 
-        BotConfiguration.setAfkConfig(AFK.builder()
+        BotConfiguration.setAfkConfig(AFKConfig.builder()
                 .isModuleEnabled(true)
                 .interval(1)
                 .idleTime(10)
@@ -46,10 +46,10 @@ class AFKWatcherTest {
                 .ignoredClientUniqueIds(List.of("kz3HFAlCw7ZUWtIclgWvwYSUBcE="))
                 .build());
 
-        BotConfiguration.setGlobalChannelConfig(GlobalChannel.builder().afkChannelIds(List.of(10, 1)).build());
+        BotConfiguration.setGlobalChannelConfig(GlobalChannelConfig.builder().afkChannelIds(List.of(10, 1)).build());
 
         final TS3Config ts3Config = new TS3Config();
-        TeamspeakCredentials credentials = TeamSpeak.getCredentials();
+        TeamspeakCredentialsConfig credentials = TeamSpeak.getCredentials();
 
         //set address
         ts3Config.setHost(credentials.getHostname());

@@ -7,9 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
-import systems.tat.teamspeak.model.GlobalChannel;
-import systems.tat.teamspeak.model.SupportChannel;
-import systems.tat.teamspeak.model.TeamspeakCredentials;
+import systems.tat.teamspeak.model.config.GlobalChannelConfig;
+import systems.tat.teamspeak.model.config.SupportChannelConfig;
+import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 import systems.tat.teamspeak.util.InstanceUtil;
 
 import java.util.List;
@@ -21,11 +21,11 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Slf4j
-class SupportGlobalChannelWatcherTest {
+class SupportGlobalChannelConfigWatcherTest {
 
     @BeforeAll
     public static void setup() throws NoSuchFieldException, IllegalAccessException {
-        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentials.builder()
+        InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentialsConfig.builder()
                 .hostname("localhost")
                 .virtualServerPort(9987)
                 .defaultChannelId(1)
@@ -35,7 +35,7 @@ class SupportGlobalChannelWatcherTest {
                 .nickname("Ts3Bot")
                 .build());
 
-        BotConfiguration.setSupportChannelConfig(SupportChannel.builder()
+        BotConfiguration.setSupportChannelConfig(SupportChannelConfig.builder()
                 .isModuleEnabled(true)
                 .interval(1)
                 .closedChannelName("closed")
@@ -63,10 +63,10 @@ class SupportGlobalChannelWatcherTest {
                 .privateMessageClientIfJoin(true)
                 .build());
 
-        BotConfiguration.setGlobalChannelConfig(GlobalChannel.builder().afkChannelIds(List.of(1)).build());
+        BotConfiguration.setGlobalChannelConfig(GlobalChannelConfig.builder().afkChannelIds(List.of(1)).build());
 
         final TS3Config ts3Config = new TS3Config();
-        TeamspeakCredentials credentials = TeamSpeak.getCredentials();
+        TeamspeakCredentialsConfig credentials = TeamSpeak.getCredentials();
 
         //set address
         ts3Config.setHost(credentials.getHostname());

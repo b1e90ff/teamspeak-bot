@@ -2,7 +2,7 @@ package systems.tat.teamspeak;
 
 import com.github.theholywaffle.teamspeak3.TS3Api;
 import lombok.Getter;
-import systems.tat.teamspeak.model.TeamspeakCredentials;
+import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 
 /**
  * ToDo: Comment this class
@@ -13,7 +13,7 @@ import systems.tat.teamspeak.model.TeamspeakCredentials;
 @Getter
 public class TeamSpeak {
 
-    private static final TeamspeakCredentials credentials = null;
+    private static final TeamspeakCredentialsConfig credentials = null;
     private static TS3Api api;
     private TeamSpeak() {}
 
@@ -21,7 +21,7 @@ public class TeamSpeak {
         return api;
     }
 
-    public static TeamspeakCredentials getCredentials() {
+    public static TeamspeakCredentialsConfig getCredentials() {
         return credentials;
     }
 
