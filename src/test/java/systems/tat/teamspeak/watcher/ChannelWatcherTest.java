@@ -28,6 +28,9 @@ class ChannelWatcherTest {
 
     @BeforeAll
     public static void setUp() throws NoSuchFieldException, IllegalAccessException {
+        // Load TeamSpeak instance
+        TeamSpeak.getTs3API();
+
         InstanceUtil.setTeamspeakCredentialsInstance(TeamspeakCredentialsConfig.builder()
                 .hostname("localhost")
                 .virtualServerPort(9987)

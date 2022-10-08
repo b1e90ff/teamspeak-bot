@@ -7,21 +7,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import systems.tat.teamspeak.TeamSpeak;
 import systems.tat.teamspeak.config.BotConfiguration;
+import systems.tat.teamspeak.model.Group;
 import systems.tat.teamspeak.model.config.GlobalChannelConfig;
 import systems.tat.teamspeak.model.config.SupportChannelConfig;
+import systems.tat.teamspeak.model.config.TeamOverviewConfig;
 import systems.tat.teamspeak.model.config.TeamspeakCredentialsConfig;
 import systems.tat.teamspeak.util.InstanceUtil;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 /**
  * ToDo: Comment this class
  *
  * @author : Niklas Tat
- * @since : 04.10.2022
+ * @since : 08.10.2022
  */
 @Slf4j
-class SupportGlobalChannelConfigWatcherTest {
+class TeamOverviewWatcherTest {
 
     @BeforeAll
     public static void setup() throws NoSuchFieldException, IllegalAccessException {
@@ -66,7 +70,39 @@ class SupportGlobalChannelConfigWatcherTest {
                 .privateMessageClientIfJoin(true)
                 .build());
 
-        BotConfiguration.setGlobalChannelConfig(GlobalChannelConfig.builder().afkChannelIds(List.of(1)).build());
+        BotConfiguration.setGlobalChannelConfig(GlobalChannelConfig.builder().afkChannelIds(List.of(10, 1)).build());
+
+        BotConfiguration.setTeamOverviewConfig(TeamOverviewConfig
+                .builder()
+                .isModuleEnabled(true)
+                .interval(10)
+                .header("[center][img]https://cdn.pixabay.com/photo/2022/09/13/13/47/animal-7451968_960_720.jpg[/img][/center]\n\n")
+                .footer("\n\nFooter Message")
+                .groupSeparator("\n\n")
+                .clientSeparator("\n")
+                .onlineMessage("[B][COLOR=#1bfa02](Online)[/COLOR][/B]\n")
+                .offlineMessage("[B][COLOR=#ff0000](Offline)[/COLOR][/B]\n")
+                .awayMessage("[B][COLOR=#ff4e00] (Away)[/COLOR][/B]\n")
+                .notAvailableMessage("[B][COLOR=#decb1f](Not Available)[/COLOR][/B]\n")
+                .groups(List.of(
+                        Group
+                                .builder()
+                                .header("[CENTER][B][SIZE=14]%group%[/SIZE][/B][/CENTER]\n")
+                                .emptyMessage("We are searing for new members")
+                                .name("Administrator")
+                                .template("[B]%client%[/B] | %status%")
+                                .groupId(6)
+                                .build(),
+                        Group
+                                .builder()
+                                .header("[CENTER][B][SIZE=14]%group%[/SIZE][/B][/CENTER]\n")
+                                .emptyMessage("We are searing for new members")
+                                .name("Supporter")
+                                .template("[B]%client%[/B] | %status%")
+                                .groupId(11)
+                                .build()))
+                        .channelIds(List.of(4, 10))
+                .build());
 
         final TS3Config ts3Config = new TS3Config();
         TeamspeakCredentialsConfig credentials = TeamSpeak.getCredentials();
@@ -99,12 +135,12 @@ class SupportGlobalChannelConfigWatcherTest {
 
     @AfterAll
     static void tearDown() {
-        SupportChannelWatcher.stop();
+        TeamOverviewWatcher.stop();
         TeamSpeak.getTs3API().logout();
     }
 
     @Test
     void start() {
-        SupportChannelWatcher.start();
+        TeamOverviewWatcher.start();
     }
 }

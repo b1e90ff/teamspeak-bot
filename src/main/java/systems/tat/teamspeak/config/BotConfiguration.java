@@ -1,10 +1,7 @@
 package systems.tat.teamspeak.config;
 
 import lombok.Data;
-import systems.tat.teamspeak.model.config.AFKConfig;
-import systems.tat.teamspeak.model.config.ChannelConfig;
-import systems.tat.teamspeak.model.config.GlobalChannelConfig;
-import systems.tat.teamspeak.model.config.SupportChannelConfig;
+import systems.tat.teamspeak.model.config.*;
 
 /**
  * ToDo: Comment this class
@@ -19,6 +16,7 @@ public class BotConfiguration {
     private static AFKConfig afkConfig;
     private static GlobalChannelConfig globalChannelConfig;
     private static ChannelConfig channelConfig;
+    private static TeamOverviewConfig teamOverviewConfig;
 
     public static AFKConfig getAfkConfig() {
         return afkConfig;
@@ -50,5 +48,13 @@ public class BotConfiguration {
 
     public static ChannelConfig getChannelConfig() {
         return channelConfig;
+    }
+
+    public static void setTeamOverviewConfig(TeamOverviewConfig teamOverviewConfig) {
+        BotConfiguration.teamOverviewConfig = teamOverviewConfig;
+    }
+
+    public static TeamOverviewConfig getTeamOverviewConfig() {
+        return teamOverviewConfig;
     }
 }

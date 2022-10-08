@@ -52,8 +52,6 @@ public class AFKWatcher {
     private static void runWatcher() {
         while (running.get()) {
             try {
-                Thread.sleep(BotConfiguration.getAfkConfig().getInterval() * 1000L);
-
                 // check for any AFK Clients and if the clients is ignored (already in AFK, in ignored Group...)
                 TeamSpeak.getTs3API().getClients().stream()
                         // Check if client is not a Query Client
@@ -72,10 +70,12 @@ public class AFKWatcher {
                         .forEach(client -> {
                             // The First AFK Channel is the default AFK Channel
                             TeamSpeak.getTs3API().moveClient(client.getId(), BotConfiguration.getGlobalChannelConfig().getAfkChannelIds().get(0));
-                            log.info("Moved client {} to AFK Channel cause of inactivity ({} seconds)", client.getNickname(), client.getIdleTime() / 1000L);
+                            log.info("Moved client '{}' to AFK Channel cause of inactivity ({} seconds)", client.getNickname(), client.getIdleTime() / 1000L);
                         });
                 // Move Query back to default Channel
                 TeamSpeak.moveToDefault();
+
+                Thread.sleep(BotConfiguration.getAfkConfig().getInterval() * 1000L);
             } catch (Exception ex) {
                 log.error("Error while running AFK Watcher!", ex);
                 log.error("If this error occurs often, please report this issue with some information about your setup!");

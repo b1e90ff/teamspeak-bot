@@ -59,8 +59,6 @@ public class ChannelWatcher {
     private static void runWatcher() {
         while (running.get()) {
             try {
-                Thread.sleep(BotConfiguration.getChannelConfig().getInterval() * 1000L);
-
                 BotConfiguration.getChannelConfig().getChannels()
                         .forEach(channel -> {
                             // Getting all child channels of parent channel
@@ -86,6 +84,8 @@ public class ChannelWatcher {
                             // Check the channel names
                             checkChannelNames(channelInfos, channel);
                         });
+
+                Thread.sleep(BotConfiguration.getChannelConfig().getInterval() * 1000L);
             } catch (Exception ex) {
                 log.error("Error while running Channel Watcher!", ex);
                 log.error("If this error occurs often, please report this issue with some information about your setup!");
@@ -142,15 +142,12 @@ public class ChannelWatcher {
             TeamSpeak.getTs3API().addChannelPermission(channelId, permissionsName, value);
         });
 
-        log.info("Created new channel {} with id {}", channelName, channelId);
+        log.info("Created new channel '{}' with id '{}'", channelName, channelId);
     }
 
     private static String generateChannelName(systems.tat.teamspeak.model.Channel channelConfig, List<Channel> channelInfos) {
         final String channelName = channelConfig.getName();
         final AtomicInteger channelNumber = new AtomicInteger(0);
-
-        // Get all channels
-        List<Channel> channels = TeamSpeak.getTs3API().getChannels();
 
         // Get the highest channel number
         channelInfos.forEach(channel -> {

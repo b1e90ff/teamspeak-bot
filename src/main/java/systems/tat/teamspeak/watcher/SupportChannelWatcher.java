@@ -41,7 +41,7 @@ public class SupportChannelWatcher {
         log.info("Starting SupportChannel Watcher...");
         log.info("Activating SupportEvent listener...");
         TeamSpeak.getTs3API().addTS3Listeners(new SupportListener());
-        log.info("Watching for Supporter in SupportChannel with the ID {}", BotConfiguration.getSupportChannelConfig().getChannelId());
+        log.info("Watching for Supporter in SupportChannel with the ID '{}'", BotConfiguration.getSupportChannelConfig().getChannelId());
         running.set(true);
         runWatcher();
     }
@@ -64,7 +64,6 @@ public class SupportChannelWatcher {
     private static void runWatcher() {
         while (running.get()) {
             try {
-                Thread.sleep(BotConfiguration.getSupportChannelConfig().getInterval() * 1000L);
                 availableSupporter.clear();
 
                 // check if there are any supporter available
@@ -75,6 +74,8 @@ public class SupportChannelWatcher {
 
                 // Change channel name
                 changeChannelName();
+
+                Thread.sleep(BotConfiguration.getSupportChannelConfig().getInterval() * 1000L);
             } catch (Exception ex) {
                 log.error("Error while running SupportChannel Watcher!", ex);
                 log.error("If this error occurs often, please report this issue with some information about your setup!");
