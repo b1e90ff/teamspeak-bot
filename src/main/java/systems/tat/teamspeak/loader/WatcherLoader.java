@@ -2,6 +2,7 @@ package systems.tat.teamspeak.loader;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import systems.tat.teamspeak.annotation.Watcher;
 import systems.tat.teamspeak.util.FileUtil;
 
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +29,7 @@ public class WatcherLoader {
 
     public void searchForAnyWatcher() {
         log.info("Searching for any Watchers...");
-        watcherClasses = FileUtil.findClassesWithWatcherAnnotation("systems.tat.teamspeak.watcher");
+        watcherClasses = FileUtil.findClassesWithAnnotation("systems.tat.teamspeak.watcher", Watcher.class);
     }
 
     public static WatcherLoader getInstance() {

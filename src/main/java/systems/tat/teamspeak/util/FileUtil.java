@@ -4,9 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import systems.tat.teamspeak.annotation.Watcher;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -65,7 +65,7 @@ public class FileUtil {
         }
     }
 
-    public static List<Class<?>> findClassesWithWatcherAnnotation(String packageName) {
+    public static List<Class<?>> findClassesWithAnnotation(String packageName, Class<? extends Annotation> annotation) {
 
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace('.', '/');
@@ -89,13 +89,13 @@ public class FileUtil {
 
         List<Class<?>> classes = new ArrayList<>();
 
-        dirs.stream().filter(File::exists).forEach(file -> classes.addAll(findClassesWithWatcherAnnotation(file, packageName)));
-        log.info("Found " + classes.size() + " classes with @Watcher annotation");
+        dirs.stream().filter(File::exists).forEach(file -> classes.addAll(findClassesWithAnnotation(file, packageName, annotation)));
+        log.info("Found " + classes.size() + " classes with @{} annotation", annotation.getSimpleName());
 
         return classes;
     }
 
-    private static List<Class<?>> findClassesWithWatcherAnnotation(File directory, String packageName) {
+    private static List<Class<?>> findClassesWithAnnotation(File directory, String packageName, Class<? extends Annotation> annotation) {
 
         List<Class<?>> classes = new ArrayList<>();
 
@@ -108,13 +108,14 @@ public class FileUtil {
         for (File file : files) {
             if (file.isDirectory()) {
                 assert !file.getName().contains(".");
-                classes.addAll(findClassesWithWatcherAnnotation(file,
-                        (!packageName.equals("") ? packageName + "." : packageName) + file.getName()));
+                classes.addAll(findClassesWithAnnotation(file,
+                        (!packageName.equals("") ? packageName + "." : packageName) + file.getName(), annotation)
+                );
             } else if (file.getName().endsWith(".class"))
                 try {
                     Class<?> clazz = Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6));
                     // Check for Watcher annotation
-                    if (clazz.isAnnotationPresent(Watcher.class))
+                    if (clazz.isAnnotationPresent(annotation))
                         classes.add(clazz);
                 } catch (ClassNotFoundException e) {
                     log.error("Could not find class", e);

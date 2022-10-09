@@ -1,7 +1,7 @@
 package systems.tat.teamspeak.model.config;
 
-import lombok.Builder;
 import lombok.Data;
+import systems.tat.teamspeak.annotation.Configuration;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import java.util.List;
  * @since : 02.10.2022
  */
 @Data
+@Configuration(path = "/watcher/global-channel.json")
 public class GlobalChannelConfig {
 
     private List<Integer> afkChannelIds;

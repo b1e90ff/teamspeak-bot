@@ -1,6 +1,7 @@
 package systems.tat.teamspeak.model.config;
 
 import lombok.*;
+import systems.tat.teamspeak.annotation.Configuration;
 
 import java.io.Serializable;
 
@@ -19,6 +20,7 @@ import java.io.Serializable;
  * @since : 28.09.2022
  */
 @Data
+@Configuration(path = "/credentials/teamspeak.json")
 public class TeamspeakCredentialsConfig implements Serializable {
 
     /*

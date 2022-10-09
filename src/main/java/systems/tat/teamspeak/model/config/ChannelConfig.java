@@ -1,6 +1,7 @@
 package systems.tat.teamspeak.model.config;
 
 import lombok.Data;
+import systems.tat.teamspeak.annotation.Configuration;
 import systems.tat.teamspeak.model.Channel;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Data
+@Configuration(path = "/watcher/channel.json")
 public class ChannelConfig {
 
         private boolean isWatcherEnabled;

@@ -1,7 +1,7 @@
 package systems.tat.teamspeak.model.config;
 
-import lombok.Builder;
 import lombok.Data;
+import systems.tat.teamspeak.annotation.Configuration;
 import systems.tat.teamspeak.model.Group;
 
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
  * @since : 08.10.2022
  */
 @Data
+@Configuration(path = "/watcher/team-overview.json")
 public class TeamOverviewConfig {
 
     private boolean isWatcherEnabled;
