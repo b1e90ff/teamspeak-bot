@@ -12,8 +12,11 @@ import java.util.List;
  * @since : 02.10.2022
  */
 @Data
-@Builder
 public class GlobalChannelConfig {
 
     private List<Integer> afkChannelIds;
+
+    public GlobalChannelConfig() {
+        this.afkChannelIds = List.of(1);
+    }
 }

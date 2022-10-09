@@ -23,17 +23,19 @@ public class AFKWatcher {
     private AFKWatcher() {}
 
     public static void start() {
-        if (running.get()) {
-            log.warn("Trying to start AFK Watcher, but it is already running!");
-            log.warn("If this is not the case, please restart the bot and report this!");
-            log.warn("In case you need help, feel free to contact the developer!");
-            return;
-        }
+        if (BotConfiguration.getAfkConfig().isWatcherEnabled()) {
+            if (running.get()) {
+                log.warn("Trying to start AFK Watcher, but it is already running!");
+                log.warn("If this is not the case, please restart the bot and report this!");
+                log.warn("In case you need help, feel free to contact the developer!");
+                return;
+            }
 
-        log.info("Starting AFK Watcher...");
-        log.info("Watching for any AFK clients...");
-        running.set(true);
-        runWatcher();
+            log.info("Starting AFK Watcher...");
+            log.info("Watching for any AFK clients...");
+            running.set(true);
+            runWatcher();
+        }
     }
 
     public static void stop() {

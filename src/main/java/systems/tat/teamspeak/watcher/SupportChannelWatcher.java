@@ -31,19 +31,21 @@ public class SupportChannelWatcher {
     }
 
     public static void start() {
-        if (running.get()) {
-            log.warn("Trying to start SupportChannel Watcher, but it is already running!");
-            log.warn("If this is not the case, please restart the bot and report this!");
-            log.warn("In case you need help, feel free to contact the developer!");
-            return;
-        }
+        if (BotConfiguration.getSupportChannelConfig().isWatcherEnabled()) {
+            if (running.get()) {
+                log.warn("Trying to start SupportChannel Watcher, but it is already running!");
+                log.warn("If this is not the case, please restart the bot and report this!");
+                log.warn("In case you need help, feel free to contact the developer!");
+                return;
+            }
 
-        log.info("Starting SupportChannel Watcher...");
-        log.info("Activating SupportEvent listener...");
-        TeamSpeak.getTs3API().addTS3Listeners(new SupportListener());
-        log.info("Watching for Supporter in SupportChannel with the ID '{}'", BotConfiguration.getSupportChannelConfig().getChannelId());
-        running.set(true);
-        runWatcher();
+            log.info("Starting SupportChannel Watcher...");
+            log.info("Activating SupportEvent listener...");
+            TeamSpeak.getTs3API().addTS3Listeners(new SupportListener());
+            log.info("Watching for Supporter in SupportChannel with the ID '{}'", BotConfiguration.getSupportChannelConfig().getChannelId());
+            running.set(true);
+            runWatcher();
+        }
     }
 
     public static void stop() {
@@ -116,7 +118,7 @@ public class SupportChannelWatcher {
     private static boolean isClientAFKOrNotOnDuty(Client client) {
         return client.isAway()
                 || client.isOutputMuted()
-                || client.getIdleTime() > BotConfiguration.getSupportChannelConfig().getIdleTime()
+                || client.getIdleTime() > BotConfiguration.getSupportChannelConfig().getIdleTime() * 1000L
                 || BotConfiguration.getGlobalChannelConfig().getAfkChannelIds().contains(client.getChannelId())
                 || !client.isChannelCommander();
     }

@@ -13,10 +13,9 @@ import java.util.List;
  * @since : 29.09.2022
  */
 @Data
-@Builder
 public class SupportChannelConfig implements Serializable {
 
-    private boolean isModuleEnabled;
+    private boolean isWatcherEnabled;
     private int interval;
 
     private String closedChannelName;
@@ -34,7 +33,7 @@ public class SupportChannelConfig implements Serializable {
     private int clientSupportChannelNeededJoinPower;
     private int clientSupportChannelNeededTalkPower;
 
-    private long idleTime;
+    private int idleTime;
 
     private List<Integer> supportGroupIds;
     private List<Integer> ignoredGroupIds;
@@ -46,4 +45,37 @@ public class SupportChannelConfig implements Serializable {
     private boolean pokeSupporterIfJoin;
     private boolean privateMessageSupporterIfJoin;
     private boolean privateMessageClientIfJoin;
+
+    public SupportChannelConfig() {
+        this.isWatcherEnabled = false;
+        this.interval = 5;
+
+        this.closedChannelName = "Support currently closed!";
+        this.openChannelName = "Open %supporter%";
+        this.supportOnlineJoinMessage = "%supporter% Supporter has been notified";
+        this.supportOfflineJoinMessage = "No supporter online";
+        this.clientJoinedSupportMessage = "The Client %client% has joined the support channel";
+        this.clientJoinedSupportPokeMessage = "%client% need help";
+
+        this.channelId = 4;
+        this.supportOnlineMaxClients = 200;
+        this.supportOfflineMaxClients = 0;
+        this.clientSupportChannelMaxClients = 0;
+        this.clientSupportChannelCodecQuality = 10;
+        this.clientSupportChannelNeededJoinPower = 50;
+        this.clientSupportChannelNeededTalkPower = 2;
+
+        this.idleTime = 1800;
+
+        this.supportGroupIds = List.of(6);
+        this.ignoredGroupIds = List.of(10);
+
+        this.createChannelIfJoin = true;
+        this.isClientStickyIfJoin = true;
+        this.supportOnlineUnlimitedClients = true;
+        this.supportOfflineUnlimitedClients = true;
+        this.pokeSupporterIfJoin = true;
+        this.privateMessageSupporterIfJoin = true;
+        this.privateMessageClientIfJoin = true;
+    }
 }

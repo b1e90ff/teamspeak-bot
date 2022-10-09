@@ -12,11 +12,21 @@ import systems.tat.teamspeak.model.config.*;
 @Data
 public class BotConfiguration {
 
+    private static TeamspeakCredentialsConfig teamspeakCredentialsConfig;
     private static SupportChannelConfig supportChannelConfig;
     private static AFKConfig afkConfig;
     private static GlobalChannelConfig globalChannelConfig;
     private static ChannelConfig channelConfig;
     private static TeamOverviewConfig teamOverviewConfig;
+
+
+    public static TeamspeakCredentialsConfig getTeamspeakCredentialsConfig() {
+        return teamspeakCredentialsConfig;
+    }
+
+    public static void setTeamspeakCredentialsConfig(TeamspeakCredentialsConfig teamspeakCredentialsConfig) {
+        BotConfiguration.teamspeakCredentialsConfig = teamspeakCredentialsConfig;
+    }
 
     public static AFKConfig getAfkConfig() {
         return afkConfig;

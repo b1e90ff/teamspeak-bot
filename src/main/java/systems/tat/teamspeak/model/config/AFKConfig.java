@@ -1,6 +1,5 @@
 package systems.tat.teamspeak.model.config;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
@@ -12,11 +11,10 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Data
-@Builder
 // The First AFK Channel in Channel is the default AFK Channel
 public class AFKConfig {
 
-    private boolean isModuleEnabled;
+    private boolean isWatcherEnabled;
     private int interval;
 
     private int idleTime;
@@ -25,4 +23,13 @@ public class AFKConfig {
     // All AFK channels in the Channel Pojo are included in this list
     private List<Integer> ignoredChannelIds;
     private List<String> ignoredClientUniqueIds;
+
+    public AFKConfig() {
+        this.isWatcherEnabled = false;
+        this.interval = 5;
+        this.idleTime = 300;
+        this.ignoredGroupIds = List.of(1);
+        this.ignoredChannelIds = List.of(1);
+        this.ignoredClientUniqueIds = List.of("kz3HFAlCw7ZUWtIclgWvwYSUBcE=");
+    }
 }

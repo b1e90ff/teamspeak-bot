@@ -19,9 +19,6 @@ import java.io.Serializable;
  * @since : 28.09.2022
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class TeamspeakCredentialsConfig implements Serializable {
 
     /*
@@ -82,4 +79,14 @@ public class TeamspeakCredentialsConfig implements Serializable {
      * file. The default nickname is "TeamSpeakBot"
      */
     private String nickname;
+
+    public TeamspeakCredentialsConfig() {
+        this.hostname = "localhost";
+        this.virtualServerPort = 9987;
+        this.defaultChannelId = 1;
+        this.queryUsername = "serveradmin";
+        this.queryPassword = "password";
+        this.queryPort = 10011;
+        this.nickname = "Tat";
+    }
 }
