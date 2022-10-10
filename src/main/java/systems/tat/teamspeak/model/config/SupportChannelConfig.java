@@ -14,7 +14,7 @@ import java.util.List;
  * @since : 29.09.2022
  */
 @Data
-@Configuration(path = "/watcher/support-channel.json")
+@Configuration(path = "watcher\\support-channel.json")
 public class SupportChannelConfig implements Serializable {
 
     private boolean isWatcherEnabled;

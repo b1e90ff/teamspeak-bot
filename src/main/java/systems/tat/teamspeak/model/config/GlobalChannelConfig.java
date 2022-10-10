@@ -12,7 +12,7 @@ import java.util.List;
  * @since : 02.10.2022
  */
 @Data
-@Configuration(path = "/watcher/global-channel.json")
+@Configuration(path = "watcher\\global-channel.json")
 public class GlobalChannelConfig {
 
     private List<Integer> afkChannelIds;

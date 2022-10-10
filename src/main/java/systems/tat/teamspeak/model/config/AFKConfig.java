@@ -12,7 +12,7 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Data
-@Configuration(path = "/watcher/afk.json")
+@Configuration(path = "watcher\\afk.json")
 // The First AFK Channel in Channel is the default AFK Channel
 public class AFKConfig {
 

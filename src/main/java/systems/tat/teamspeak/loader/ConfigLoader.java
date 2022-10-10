@@ -1,6 +1,8 @@
 package systems.tat.teamspeak.loader;
 
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 import systems.tat.teamspeak.annotation.Configuration;
 import systems.tat.teamspeak.config.BotConfiguration;
 import systems.tat.teamspeak.util.FileUtil;
@@ -36,8 +38,9 @@ public class ConfigLoader {
         log.info("Loading config...");
 
         AtomicBoolean newConfigFileCreated = new AtomicBoolean(false);
+        Reflections reflections = new Reflections("systems.tat.teamspeak.model");
 
-        FileUtil.findClassesWithAnnotation("systems.tat.teamspeak.model", Configuration.class).forEach(configClazz -> {
+        reflections.get(Scanners.SubTypes.of(Scanners.TypesAnnotated.with(Configuration.class)).asClass()).forEach(configClazz -> {
             // Get Annotation variables
             Configuration annotation = configClazz.getAnnotation(Configuration.class);
             String path = FileUtil.getJarPath() + annotation.path();

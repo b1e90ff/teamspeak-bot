@@ -13,7 +13,7 @@ import java.util.List;
  * @since : 08.10.2022
  */
 @Data
-@Configuration(path = "/watcher/team-overview.json")
+@Configuration(path = "watcher\\team-overview.json")
 public class TeamOverviewConfig {
 
     private boolean isWatcherEnabled;
@@ -34,8 +34,8 @@ public class TeamOverviewConfig {
     public TeamOverviewConfig() {
         this.isWatcherEnabled = false;
         this.interval = 30;
-        this.header = "[center]Header Message for Team Overview You can use TeamSpeak Tags like [b]bold[/b] or [i]italic[/i]...[center]";
-        this.footer = "\n\n[center]Footer sample message[center]";
+        this.header = "[CENTER]Header Message for Team Overview You can use TeamSpeak Tags like [b]bold[/b] or [i]italic[/i]...[/CENTER]\n\n";
+        this.footer = "\n\n[CENTER]Footer sample message[/CENTER]";
         this.groupSeparator = "\n\n";
         this.clientSeparator = "\n";
         this.onlineMessage = "[B][COLOR=#1bfa02](Online)[/COLOR][/B]\n";

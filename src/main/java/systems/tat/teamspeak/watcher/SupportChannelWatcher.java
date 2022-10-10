@@ -21,45 +21,17 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 @Watcher
-public class SupportChannelWatcher {
+public class SupportChannelWatcher extends Thread {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
     private static final LinkedList<Integer> availableSupporter = new LinkedList<>();
 
-
-    private SupportChannelWatcher() {
-    }
-
-    public static void start() {
+    public void run() {
         if (BotConfiguration.getSupportChannelConfig().isWatcherEnabled()) {
-            if (running.get()) {
-                log.warn("Trying to start SupportChannel Watcher, but it is already running!");
-                log.warn("If this is not the case, please restart the bot and report this!");
-                log.warn("In case you need help, feel free to contact the developer!");
-                return;
-            }
-
-            log.info("Starting SupportChannel Watcher...");
-            log.info("Activating SupportEvent listener...");
-            TeamSpeak.getTs3API().addTS3Listeners(new SupportListener());
-            log.info("Watching for Supporter in SupportChannel with the ID '{}'", BotConfiguration.getSupportChannelConfig().getChannelId());
+            log.info("SupportChannelWatcher is enabled and will be started");
             running.set(true);
             runWatcher();
         }
-    }
-
-    public static void stop() {
-        if (!running.get()) {
-            log.warn("Trying to stop SupportChannel Watcher, but it is not running!");
-            log.warn("Please report this issue with some information about your setup!");
-            log.warn("In case you need help, feel free to contact the developer!");
-            return;
-        }
-
-        log.info("Stopping SupportChannel Watcher...");
-        log.info("Deactivating SupportEvent listener...");
-        TeamSpeak.getTs3API().removeTS3Listeners(new SupportListener());
-        running.set(false);
     }
 
     @SuppressWarnings("BusyWait")

@@ -21,41 +21,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Watcher
 @Slf4j
-public class TeamOverviewWatcher {
+public class TeamOverviewWatcher extends Thread {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
 
     private static final StringBuilder newDescription = new StringBuilder();
     private static int lastGroupId = 0;
 
-    private TeamOverviewWatcher() {
-    }
-
-    public static void start() {
+    public void run() {
         if (BotConfiguration.getTeamOverviewConfig().isWatcherEnabled()) {
-            if (running.get()) {
-                log.warn("Trying to start TeamOverview Watcher, but it is already running!");
-                log.warn("If this is not the case, please restart the bot and report this!");
-                log.warn("In case you need help, feel free to contact the developer!");
-                return;
-            }
-
-            log.info("Starting TeamOverview Watcher...");
+            log.info("TeamOverviewWatcher is enabled and will be started");
             running.set(true);
             runWatcher();
         }
-    }
-
-    public static void stop() {
-        if (!running.get()) {
-            log.warn("Trying to stop TeamOverview Watcher, but it is not running!");
-            log.warn("Please report this issue with some information about your setup!");
-            log.warn("In case you need help, feel free to contact the developer!");
-            return;
-        }
-
-        log.info("Stopping TeamOverview Watcher...");
-        running.set(false);
     }
 
     @SuppressWarnings("BusyWait")

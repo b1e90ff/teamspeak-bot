@@ -1,13 +1,17 @@
 plugins {
     id 'java'
-    id 'application'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = 'systems.tat'
 version = '1.0.0'
 sourceCompatibility = '17'
 
-mainClassName = "systems.tat.teamspeak.TeamSpeakBotApplication"
+jar {
+    manifest {
+        attributes 'Main-Class': 'systems.tat.teamspeak.TeamSpeakBotApplication'
+    }
+}
 
 configurations {
     compileOnly {
@@ -25,11 +29,13 @@ dependencies {
     implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.4.1'
     implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.1'
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.9.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    implementation 'org.reflections:reflections:0.10.2'
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.24'
 
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'

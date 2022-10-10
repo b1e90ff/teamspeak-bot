@@ -4,14 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
+import systems.tat.teamspeak.TeamSpeakBotApplication;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
 
 /**
  * ToDo: Comment this class
@@ -23,6 +21,15 @@ import java.util.*;
 public class FileUtil {
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+    public static String getJarPathWithJar() {
+        try {
+            return new File(TeamSpeakBotApplication.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).toString();
+        } catch (Exception e) {
+            log.error("Could not get jar path", e);
+            return null;
+        }
+    }
 
     public static String getJarPath() {
         try {
@@ -63,65 +70,6 @@ public class FileUtil {
         } catch (Exception e) {
             log.error("Error while writing file: " + path, e);
         }
-    }
-
-    public static List<Class<?>> findClassesWithAnnotation(String packageName, Class<? extends Annotation> annotation) {
-
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String path = packageName.replace('.', '/');
-        Enumeration<URL> resources = null;
-
-        try {
-            resources = classLoader.getResources(path);
-        } catch (Exception e) {
-            log.error("Could not find resources", e);
-        }
-
-        List<File> dirs = new ArrayList<>();
-
-        while (true) {
-            assert resources != null;
-            if (!resources.hasMoreElements()) break;
-
-            URL resource = resources.nextElement();
-            dirs.add(new File(resource.getFile()));
-        }
-
-        List<Class<?>> classes = new ArrayList<>();
-
-        dirs.stream().filter(File::exists).forEach(file -> classes.addAll(findClassesWithAnnotation(file, packageName, annotation)));
-        log.info("Found " + classes.size() + " classes with @{} annotation", annotation.getSimpleName());
-
-        return classes;
-    }
-
-    private static List<Class<?>> findClassesWithAnnotation(File directory, String packageName, Class<? extends Annotation> annotation) {
-
-        List<Class<?>> classes = new ArrayList<>();
-
-        if (!directory.exists())
-            return classes;
-
-        File[] files = directory.listFiles();
-        assert files != null;
-
-        for (File file : files) {
-            if (file.isDirectory()) {
-                assert !file.getName().contains(".");
-                classes.addAll(findClassesWithAnnotation(file,
-                        (!packageName.equals("") ? packageName + "." : packageName) + file.getName(), annotation)
-                );
-            } else if (file.getName().endsWith(".class"))
-                try {
-                    Class<?> clazz = Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6));
-                    // Check for Watcher annotation
-                    if (clazz.isAnnotationPresent(annotation))
-                        classes.add(clazz);
-                } catch (ClassNotFoundException e) {
-                    log.error("Could not find class", e);
-                }
-        }
-        return classes;
     }
 
     public static boolean jsonFileExists(String path) {

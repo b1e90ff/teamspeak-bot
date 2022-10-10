@@ -22,39 +22,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Slf4j
 @Watcher
-public class ChannelWatcher {
+public class ChannelWatcher extends Thread {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
 
-    private ChannelWatcher() {
-    }
-
-    public static void start() {
+    public void run() {
         if (BotConfiguration.getChannelConfig().isWatcherEnabled()) {
-            if (running.get()) {
-                log.warn("Trying to start Channel Watcher, but it is already running!");
-                log.warn("If this is not the case, please restart the bot and report this!");
-                log.warn("In case you need help, feel free to contact the developer!");
-                return;
-            }
-
-            log.info("Starting Channel Watcher...");
-            log.info("Watching for any Channel to handle...");
+            log.info("ChannelWatcher is enabled and will be started");
             running.set(true);
             runWatcher();
         }
-    }
-
-    public static void stop() {
-            if (!running.get()) {
-                log.warn("Trying to stop Channel Watcher, but it is not running!");
-                log.warn("Please report this issue with some information about your setup!");
-                log.warn("In case you need help, feel free to contact the developer!");
-                return;
-            }
-
-            log.info("Stopping Channel Watcher...");
-            running.set(false);
     }
 
     @SuppressWarnings("BusyWait")

@@ -16,38 +16,16 @@ import java.util.stream.IntStream;
  */
 @Slf4j
 @Watcher
-public class AFKWatcher {
+public class AFKWatcher extends Thread {
 
     private static final AtomicBoolean running = new AtomicBoolean(false);
 
-    private AFKWatcher() {}
-
-    public static void start() {
+    public void run() {
         if (BotConfiguration.getAfkConfig().isWatcherEnabled()) {
-            if (running.get()) {
-                log.warn("Trying to start AFK Watcher, but it is already running!");
-                log.warn("If this is not the case, please restart the bot and report this!");
-                log.warn("In case you need help, feel free to contact the developer!");
-                return;
-            }
-
-            log.info("Starting AFK Watcher...");
-            log.info("Watching for any AFK clients...");
+            log.info("AFK Watcher is enabled and will be started");
             running.set(true);
             runWatcher();
         }
-    }
-
-    public static void stop() {
-        if (!running.get()) {
-            log.warn("Trying to stop AFK Watcher, but it is not running!");
-            log.warn("Please report this issue with some information about your setup!");
-            log.warn("In case you need help, feel free to contact the developer!");
-            return;
-        }
-
-        log.info("Stopping AFK Watcher...");
-        running.set(false);
     }
 
     @SuppressWarnings("BusyWait")
@@ -67,7 +45,7 @@ public class AFKWatcher {
                         // Is client not group not ignored
                         .filter(client -> IntStream.of(client.getServerGroups()).noneMatch(BotConfiguration.getAfkConfig().getIgnoredGroupIds()::contains))
                         // Is client not ignored
-                        .filter(client -> !BotConfiguration.getAfkConfig().getIgnoredClientUniqueIds().contains(client.getUniqueIdentifier()))
+                        .filter(client -> BotConfiguration.getAfkConfig().getIgnoredClientUniqueIds().contains(client.getUniqueIdentifier()))
                         // Move client to AFK Channel
                         .forEach(client -> {
                             // The First AFK Channel is the default AFK Channel

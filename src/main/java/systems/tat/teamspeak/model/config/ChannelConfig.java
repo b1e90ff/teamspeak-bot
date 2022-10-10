@@ -14,7 +14,7 @@ import java.util.List;
  * @since : 04.10.2022
  */
 @Data
-@Configuration(path = "/watcher/channel.json")
+@Configuration(path = "watcher\\channel.json")
 public class ChannelConfig {
 
         private boolean isWatcherEnabled;
